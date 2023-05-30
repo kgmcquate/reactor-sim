@@ -1,0 +1,75 @@
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+#buttonContainer {
+    /* position: relative; */
+    position: sticky;
+    
+    margin-right: auto;
+    left: 1%;
+    /* left: 10%; */
+    /* float: left; */
+}
+
+#buttonContainer button {
+    position: relative;
+
+    /* left: 10%; */
+    width: 100px;
+    padding: 5px;
+    margin: 5px;
+    display: block;
+}
+
+
+#container {
+    position: relative;
+    /* margin-left: 25%; */
+    /* margin-right: 60px; */
+    background-color: rgb(10, 30, 50)
+}
+
+#formContainer {
+    position: relative;
+    top: 50%;
+    left: 60px
+}
+
+#ajaxProgress {
+    position: relative;
+    left: 60px;
+    top: 50px
+    /* right: 50%; */
+}
+
+
+#imageContainer {
+    position: relative;
+    /* left: 60px; */
+    /* top: 60px */
+    /* right: 50%; */
+}
+
+.cell {
+    background-color: gray;
+    border: solid 1px rgb(82, 82, 82);
+    /*border-radius: 10%;*/
+    position: absolute;
+    /* margin: 50px 50% 0 50%; */
+    height: 40px;
+    width: 40px;
+}
+
+#ajaxProgress {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    /* margin-left: 40%; */
+}
+
+#formdiv {
+    margin: auto;
+    /* margin-left: 20px */
+}
+

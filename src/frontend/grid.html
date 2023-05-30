@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "icon/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "icon/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "icon/favicon-16x16.png" %}">
+    <link rel="manifest" href="{% static "icon/site.webmanifest" %}">
+
+    <title>Nuclear Reactor Sim</title>
+    
+    {% csrf_token %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static "reactor_sim/styles.css" %}">
+</head>
+
+<body >
+    {% comment %} {% load crispy_forms_tags %} {% endcomment %}
+
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" style="position: fix">
+      <div class="container-fluid">
+    <div class="navbar-header">
+      <h2>Nuclear Reactor Simulator</h2>
+    </div>
+    <ul style="list-style-type:none;">
+      <li>diffusion-theory neutronics</li>
+      <li>powered by <a href="https://www.seamplex.com/milonga/">milonga, a free nuclear reactor core analysis code</a></a></li>
+      <li>created by Kevin McQuate</li>
+    </ul>
+    </div>    
+    </nav>
+    
+
+
+    <div style="text-align: center; margin-top: 140px; position: relative">
+        
+        <div style="display: flex; margin: auto">
+
+            <div id="container" style="margin-right: 10px; margin-left: calc(15% - {{maxX}}% / 2); height: calc({{ maxY }}*40px); width: calc({{ maxX }}*40px)">
+                {% for x in X %}
+                {% for y in Y %}
+                <div class="cell" id="{{ x }},{{ y }}" style="top: calc(({{ maxY }} - {{y}} - 1)*40px); left: calc({{x}}*40px); height: 40px; width: 40px;"></div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+
+            {% comment %} style="top: calc({{ maxY }}*2px)"> {% endcomment %}
+            <div id="buttonContainer" style="float: right"> 
+                <button type="button" id="fuel" class="matChoice btn btn-secondary" data-toggle="tooltip" title="Draw with Fuel">Fuel</button>
+                <button type="button" id="water" class="matChoice btn btn-secondary" data-toggle="tooltip" title="Draw with Water">Water</button>
+                <button type="button" id="poison" class="matChoice btn btn-secondary" data-toggle="tooltip" title="Draw with Neutron Poison">Poison</button>
+                <button type="button" id="air" class="matChoice btn btn-secondary" data-toggle="tooltip" title="Draw with Air">Air</button>
+                <button type="button" id="clearGrid" class="btn btn-secondary" data-toggle="tooltip" title="Fill All with Fuel">Clear All</button>
+                <hr width=80px/>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                        <input style='width: 100px; left: 10%; ' id='submit_button' class="btn btn-primary" type="submit" data-toggle="tooltip" title="Generate a New Grid" value="New Grid" />
+
+                        <input style='width: 75px; margin: 5px;' class="form-control" id="id_x_size" name="x_size" required="" type="text" placeholder="Width" autocomplete="off"/>
+                        
+                        <input style='width: 75px; margin: 5px;' class="form-control" id="id_y_size" name="y_size" required="" type="text" placeholder="Height" autocomplete="off"/>
+                </form>
+                <hr width=80px/>
+                <button style='margin-top: 17px;' type="button" id="solve" class="btn btn-success" data-toggle="tooltip" title="Send to milonga">Solve</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- <script src="{% static "diffusion/jquery-3.4.1.min.js" %}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script src="{% static "reactor_sim/grid.js" %}"></script>
+</body>
+ 
+<div id="ajaxProgressModal" class="modal fade">
+    <div class="modal-dialog modal-sm" role="document" >
+        <div class="modal-content text-center" >
+            <div class="modal-header" >
+                <h3 >Solving...</h3>
+            </div>
+            <img src="{% static 'icon/ajax-loader.gif' %}" alt="loading..." style="width: 25%; height: 25%; margin: auto; padding: 4%"/>
+        </div>
+    </div>
+</div>
+
+<div id="solutionModal" class="modal fade" tabindex="-1" role="dialog" style="overflow-y: scroll">
+
+</div>
+</html>
